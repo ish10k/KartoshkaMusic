@@ -16,90 +16,17 @@
 
 <body>
     <div id="main-section" class="row">
-        <div id="band-background"></div>
+        <div id="band-background" style="background: url('{{artist_image}}');"></div>
         <div id="middle">
             <div class="row auto-size" id="main-row">
-                <div class="col main-col lr-col">
-                    <div id="history-col">
-                        <div class="row album-row even-row">
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_1.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_2.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_3.jpg' %}"></div>
-                            </div>
-                        </div>
-                        <div class="row album-row odd-row">
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_4.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_5.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_6.jpg' %}"></div>
-                            </div>
-                        </div>
-                        <div class="row album-row even-row">
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_7.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_8.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_9.jpg' %}"></div>
-                            </div>
-                        </div>
-                        <div class="row album-row odd-row">
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_10.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_11.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_13.jpg' %}"></div>
-                            </div>
-                        </div>
-                        <div class="row album-row even-row">
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_14.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_15.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_16.jpg' %}"></div>
-                            </div>
-                        </div>
-                        <div class="row album-row odd-row">
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_17.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_18.jpg' %}"></div>
-                            </div>
-                            <div class="col mini-album">
-                                <div class="mini-album"><img class="img-fluid" src="{% static 'player/img/temp_19.jpg' %}"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="col main-col">
                     <div id="current-song">
-                        <div id="current-album"><img class="img-fluid" src="{% static 'player/img/testAlbum.jpg' %}"></div>
+                        <div id="current-album"><img class="img-fluid" src="{{song_art}}"></div>
                         <div id="song-info">
-                            <h1 class="text-center" id="song-title">Not Done Yet</h1>
-                            <h2 class="text-center" id="song-artist">Sticky Fingers</h2>
+                            <h1 class="text-center" id="song-title">{{song_title}}</h1>
+                            <h2 class="text-center" id="song-artist">{{song_artist}}</h2>
                         </div>
                     </div>
-                </div>
-                <div class="col lr-col">
-                    <div></div>
                 </div>
             </div>
         </div>
@@ -107,11 +34,22 @@
     </div>
     <div id="controls-section">
         <div class="container text-center">
-            <div id="controls"><button class="btn btn-primary control-btn small-control-btn" type="button"><i class="material-icons">skip_previous</i></button><button class="btn btn-primary control-btn big-control-btn" type="button"><i class="material-icons">pause</i></button><button class="btn btn-primary control-btn small-control-btn" type="button"><i class="material-icons">skip_next</i></button></div>
+            <div id="controls">
+                <button class="btn btn-primary control-btn small-control-btn" type="button">
+                    <i class="material-icons">skip_previous</i>
+                </button>
+                <button class="btn btn-primary control-btn big-control-btn" type="button">
+                    <i class="material-icons">pause</i>
+                </button>
+                <button class="btn btn-primary control-btn small-control-btn" type="button">
+                    <i class="material-icons">skip_next</i>
+                </button>
+            </div>
         </div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <a class="" href="https://accounts.spotify.com/en/authorize?client_id=325f8457b0444db0919e8bc14e63ed9f&response_type=code&redirect_uri=http://127.0.0.1:8000/callback&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing&show_dialog=true">Login with Spotify</a>
 </body>
 
 </html>

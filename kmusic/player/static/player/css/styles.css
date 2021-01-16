@@ -1,6 +1,5 @@
 #band-background {
   position: fixed;
-  background: url("../../assets/img/band.jpg") top;
   width: 100%;
   height: 85%;
   opacity: 0.1;
@@ -99,11 +98,6 @@
   height: 15%;
 }
 
-@media (max-width: 1400px) {
-  .lr-col {
-    display: none;
-  }
-}
 
 #song-title {
   color: var(--light);
@@ -116,7 +110,7 @@
   font-weight: bold;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 2000px) {
   #current-album img {
     width: 500px;
   }
