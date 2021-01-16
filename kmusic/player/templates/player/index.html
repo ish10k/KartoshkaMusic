@@ -35,15 +35,15 @@
     <div id="controls-section">
         <div class="container text-center">
             <div id="controls">
-                <button class="btn btn-primary control-btn small-control-btn" type="button">
+                <a href="{% url 'skip_previous' %}" class="btn btn-primary control-btn small-control-btn" type="button">
                     <i class="material-icons">skip_previous</i>
-                </button>
-                <button class="btn btn-primary control-btn big-control-btn" type="button">
+                </a>
+                <a href="{% url 'play_pause' %}" class="btn btn-primary control-btn big-control-btn" type="button">
                     <i class="material-icons">pause</i>
-                </button>
-                <button class="btn btn-primary control-btn small-control-btn" type="button">
+                </a>
+                <a href="{% url 'skip_next' %}" class="btn btn-primary control-btn small-control-btn" type="button">
                     <i class="material-icons">skip_next</i>
-                </button>
+                </a>
             </div>
         </div>
     </div>

@@ -40,11 +40,12 @@
   font-weight: bold;
 }
 
-#controls button {
+#controls a {
   text-align: center;
   border-radius: 50%;
   border-style: none;
   background: rgb(52,58,64);
+  color: white;
   margin-left: 10px;
   margin-right: 10px;
 }
