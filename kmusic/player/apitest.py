@@ -1,7 +1,7 @@
 import requests
 import json
 
-auth= "Bearer BQBToLRR6omuWYmAnSYXUR8c4skC9k3oKkdhKdJVQ6dBOyOe-RlSdu0TJKziKlYjxYTdjA4dtOWKrVFZX-vtkVVDwnzjsB6A1fL2bgMSUz7wx0xdO9Dr3HhG6fTYkNcYzAjZK4EIw8KtS0pTW99E_FD_dQAh7pr-7jth"
+auth= "Bearer BQCqY_WV8G4gTmGW9a_OO2BZ8Ths1KvAnIyjoWo3RLbJ1ZsvBlWcP-FLCbB4gsDj7cWxeKe9XTPHKGm-Pi5Zome6o5jY0qSjfNzdj8xmIExFUkB0myan-EuT1NaYNgzUaMsYJaRHFT1eZKS9RsCCeK6TwsdOVeNdqE46oh64089oDlZi2GuUDm9jrX0A6WTY7sBBNFY"
 res = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": auth})
 print("res: ", res)
 
@@ -11,6 +11,9 @@ if res.status_code==200:
     print("Song: ", response["item"]["name"])
     print("large art: ", response["item"]["album"]["images"][0]["url"])
     print("small art: ", response["item"]["album"]["images"][2]["url"])
+    print("progress: ", response["progress_ms"])
+    print("duration: ", response["item"]["duration_ms"])
+    print((response["progress_ms"]/response["item"]["duration_ms"])*100, "percent done")
 
     #18 past songs
     res = requests.get("https://api.spotify.com/v1/me/player/recently-played?limit=18", headers={"Authorization": auth})

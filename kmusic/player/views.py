@@ -28,7 +28,9 @@ def index(request):
             "song_artist" : response["item"]["artists"][0]["name"],
             "song_art" : response["item"]["album"]["images"][0]["url"],
             "artist_image" : response2["images"][0]["url"],
-
+            "song_progress" : response["progress_ms"],
+            "song_duration" : response["item"]["duration_ms"],
+            "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"],
         }
         return render(request, "player/index.html", context)
     else:

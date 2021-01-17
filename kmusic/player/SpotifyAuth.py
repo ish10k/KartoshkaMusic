@@ -59,8 +59,9 @@ class SpotifyAuth():
             data = {
                 "grant_type":"refresh_token",
                 "refresh_token":self.refresh_token,
-                "client_id": settings.SPOTIFY_CID,
-                "client_secret": settings.SPOTIFY_CS,
+                "client_id": "325f8457b0444db0919e8bc14e63ed9f",
+                #should be hidden
+                "client_secret": "8f27ca0365d04e3dac15f6771f362762",
                 "redirect_uri":"http://127.0.0.1:8000/callback",
             }
             tokenRes = requests.post("https://accounts.spotify.com/api/token", data = data)

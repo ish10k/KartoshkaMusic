@@ -12,6 +12,7 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'player/css/styles.css' %}">
+    <script src="{% static 'player/js/player.js' %}"></script>
 </head>
 
 <body>
@@ -32,7 +33,7 @@
         </div>
         <div id="history-pane"></div>
     </div>
-    <div id="controls-section">
+    <div data-timeleft="{{song_time_left}}" id="controls-section">
         <div class="container text-center">
             <div id="controls">
                 <a href="{% url 'skip_previous' %}" class="btn btn-primary control-btn small-control-btn" type="button">
@@ -47,8 +48,7 @@
             </div>
         </div>
     </div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+
     <a class="" href="https://accounts.spotify.com/en/authorize?client_id=325f8457b0444db0919e8bc14e63ed9f&response_type=code&redirect_uri=http://127.0.0.1:8000/callback&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing&show_dialog=true">Login with Spotify</a>
 </body>
 
