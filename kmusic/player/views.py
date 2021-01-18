@@ -22,7 +22,8 @@ def index(request):
         artist_id = response["item"]["artists"][0]["id"]
         res2 = requests.get("https://api.spotify.com/v1/artists/"+artist_id, headers={"Authorization":  auth})
         response2 = json.loads(res2.text)
-        print("response2: ", response2)
+        res_recents = requests.get("https://api.spotify.com/v1/me/player/recently-played", headers={"Authorization":  auth})
+        response_recents = json.loads(res_recents.text)
         context = {
             "song_title" : response["item"]["name"],
             "song_artist" : response["item"]["artists"][0]["name"],
@@ -31,6 +32,15 @@ def index(request):
             "song_progress" : response["progress_ms"],
             "song_duration" : response["item"]["duration_ms"],
             "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"],
+            "recent_1" : getAlbumCoverLink(request, response_recents["items"][0]["track"]["id"]),
+            "recent_2" : getAlbumCoverLink(request, response_recents["items"][1]["track"]["id"]),
+            "recent_3" : getAlbumCoverLink(request, response_recents["items"][2]["track"]["id"]),
+            "recent_4" : getAlbumCoverLink(request, response_recents["items"][3]["track"]["id"]),
+            "recent_5" : getAlbumCoverLink(request, response_recents["items"][4]["track"]["id"]),
+            "recent_6" : getAlbumCoverLink(request, response_recents["items"][5]["track"]["id"]),
+            "recent_7" : getAlbumCoverLink(request, response_recents["items"][6]["track"]["id"]),
+            "recent_8" : getAlbumCoverLink(request, response_recents["items"][7]["track"]["id"]),
+            "recent_9" : getAlbumCoverLink(request, response_recents["items"][8]["track"]["id"]),
         }
         return render(request, "player/index.html", context)
     else:
@@ -79,3 +89,8 @@ def play_pause(request):
         #TODO change because spotify does not update immdeiately when song paused
         requests.put("https://api.spotify.com/v1/me/player/pause", headers={"Authorization": getAuth(request)})
     return HttpResponseRedirect(reverse("index"))
+
+def getAlbumCoverLink(request, song_id):
+    res = requests.get("https://api.spotify.com/v1/tracks/"+song_id, headers={"Authorization": getAuth(request)})
+    response = json.loads(res.text)
+    return response["album"]["images"][0]["url"]

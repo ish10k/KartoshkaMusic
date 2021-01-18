@@ -37,7 +37,7 @@ class SpotifyAuth():
         now = datetime.datetime.now()
         #print("self.expirey_time", self.expirey_time)
         if self.expirey_time==None:
-            print("token not yet set")
+            #print("token not yet set")
             data = {
                 "client_id": "325f8457b0444db0919e8bc14e63ed9f",
                 #should be hidden
@@ -55,7 +55,7 @@ class SpotifyAuth():
             self.access_token = response["access_token"]
             return self.access_token
         elif self.expirey_time<=now:
-            print("token expired, time to get a new one")
+            #print("token expired, time to get a new one")
             data = {
                 "grant_type":"refresh_token",
                 "refresh_token":self.refresh_token,
@@ -70,8 +70,8 @@ class SpotifyAuth():
             self.access_token = response["access_token"]
             return self.access_token
         else:
-            print("token still valid")
-            print(self.expirey_time)
+           #print("token still valid")
+            #print(self.expirey_time)
             return self.access_token
 
     def getRefreshToken(self):

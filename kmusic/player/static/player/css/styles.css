@@ -6,9 +6,7 @@
 }
 
 #current-song {
-  margin: 0 auto;
-  vertical-align: middle;
-  position: relative;
+  height: 100%;
 }
 
 #main-section {
@@ -53,13 +51,9 @@
 #middle {
   margin: 0 auto;
   height: 100%;
-  padding: 50px;
 }
 
 .mini-album {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto;
 }
 
 .album-row {
@@ -67,27 +61,24 @@
 }
 
 .odd-row {
-  margin-left: +50px;
 }
 
 #history-col .odd-row {
   margin: 0 auto;
-  margin-left: 100px;
-}
-
-#history-col .even-row {
-  margin: 0 auto;
+  margin-left: 25%;
 }
 
 .main-col {
+  height: 100%;
+  width: 100%;
 }
 
 #main-row {
-  height: 70%;
+  height: 100%;
+  padding: 100px;
 }
 
 #current-album img {
-  width: 100%;
 }
 
 #current-album {
@@ -99,7 +90,6 @@
   height: 15%;
 }
 
-
 #song-title {
   color: var(--light);
   margin-top: 12px;
@@ -109,12 +99,6 @@
 #song-artist {
   color: rgb(210,210,210);
   font-weight: bold;
-}
-
-@media (max-width: 2000px) {
-  #current-album img {
-    width: 500px;
-  }
 }
 
 #controls btn {
@@ -141,3 +125,46 @@ body {
   height: 100%;
 }
 
+#right-col {
+  width: 100%;
+  height: 100%;
+  background: red;
+}
+
+#history-col {
+  height: 100%;
+  padding: 50px;
+}
+
+#middle2 {
+  width: 80%;
+  height: 80%;
+  margin: auto;
+;
+}
+
+@media (max-width: 992px) {
+  .lr-col {
+    display: none;
+    width: 0px;
+    height: 0px;
+  }
+}
+
+
+
+#content-row {
+  height: 70%;
+  width: 100%;
+  margin: 0px;
+}
+
+.mini-row {
+;
+  margin: 0px;
+}
+
+.mini-col {
+  margin: 0px;
+  padding: 0px;
+}

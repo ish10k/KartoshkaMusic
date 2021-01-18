@@ -18,20 +18,36 @@
 <body>
     <div id="main-section" class="row">
         <div id="band-background" style="background: url('{{artist_image}}');"></div>
-        <div id="middle">
-            <div class="row auto-size" id="main-row">
-                <div class="col main-col">
-                    <div id="current-song">
-                        <div id="current-album"><img class="img-fluid" src="{{song_art}}"></div>
+        <div id="middle2">
+            <div class="row" id="content-row">
+                <div class="col lr-col col-lg-4" id="history-col">
+                    <div class="row mini-row">
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_1}}"></div>
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_2}}"></div>
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_3}}"></div>
+                    </div>
+                    <div class="row mini-row">
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_4}}"></div>
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_5}}"></div>
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_6}}"></div>
+                    </div>
+                    <div class="row mini-row">
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_7}}"></div>
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_8}}"></div>
+                        <div class="col mini-col"><img class="img-fluid mini-album" src="{{recent_9}}"></div>
+                    </div>
+                </div>
+                <div class="col col-md-12 col-lg-4" id="middle-col">
+                    <div id="current-album"><img class="img-fluid mx-auto d-block" src="{{song_art}}">
                         <div id="song-info">
                             <h1 class="text-center" id="song-title">{{song_title}}</h1>
                             <h2 class="text-center" id="song-artist">{{song_artist}}</h2>
                         </div>
                     </div>
                 </div>
+                <div class="col lr-col col-lg-4"></div>
             </div>
         </div>
-        <div id="history-pane"></div>
     </div>
     <div data-timeleft="{{song_time_left}}" id="controls-section">
         <div class="container text-center">
