@@ -15,8 +15,10 @@ click mini album to remove from queue?
 
 # Known Problems
 
-Long song title / artist name decentralises album art
+album art too big for small screen
 
 pause icon not central
 
 background band photo needs height to be increased to 100% of main section
+
+when no song playing, page will constantly refresh
