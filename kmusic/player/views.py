@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse
 
 from django.http import HttpResponse, HttpResponseRedirect
+from django.core import serializers
 
 import requests
 import json
@@ -22,6 +23,7 @@ def index(request):
         response = json.loads(res_current.text)
         sq = getSongQueue(request)
         sq.addItem(response["item"]["album"]["images"][0]["url"])
+        request.session["songqueue"] = sq.toJSON()
         artist_id = response["item"]["artists"][0]["id"]
         res2 = requests.get("https://api.spotify.com/v1/artists/"+artist_id, headers={"Authorization":  auth})
         response2 = json.loads(res2.text)
@@ -35,15 +37,7 @@ def index(request):
             "song_progress" : response["progress_ms"],
             "song_duration" : response["item"]["duration_ms"],
             "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"],
-            "recent_1" : getAlbumCoverLink(request, response_recents["items"][0]["track"]["id"]),
-            "recent_2" : getAlbumCoverLink(request, response_recents["items"][1]["track"]["id"]),
-            "recent_3" : getAlbumCoverLink(request, response_recents["items"][2]["track"]["id"]),
-            "recent_4" : getAlbumCoverLink(request, response_recents["items"][3]["track"]["id"]),
-            "recent_5" : getAlbumCoverLink(request, response_recents["items"][4]["track"]["id"]),
-            "recent_6" : getAlbumCoverLink(request, response_recents["items"][5]["track"]["id"]),
-            "recent_7" : getAlbumCoverLink(request, response_recents["items"][6]["track"]["id"]),
-            "recent_8" : getAlbumCoverLink(request, response_recents["items"][7]["track"]["id"]),
-            "recent_9" : getAlbumCoverLink(request, response_recents["items"][8]["track"]["id"]),
+            "recents" : sq.getQueue(),
         }
         return render(request, "player/index.html", context)
     else:
@@ -97,7 +91,9 @@ def getAlbumCoverLink(request, song_id):
     return response["album"]["images"][0]["url"]
 
 def getSongQueue(request):
-    sq = request.session.get("songqueue", None)
-    if sq==None:
+    sq_json = json.loads(request.session.get("songqueue", None))
+    if sq_json==None:
         sq = SongQueue(length=10)
+    else:
+        sq = SongQueue(length=sq_json["length"],head=sq_json["head"],queue=sq_json["queue"])
     return sq
