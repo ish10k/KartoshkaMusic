@@ -55,9 +55,16 @@
                 <a href="{% url 'skip_previous' %}" class="btn btn-primary control-btn small-control-btn" type="button">
                     <i class="material-icons">skip_previous</i>
                 </a>
-                <a href="{% url 'play_pause' %}" class="btn btn-primary control-btn big-control-btn" type="button">
+                {% if isPaused %}
+                <a id="play_btn" href="{% url 'play' %}" class="btn btn-primary control-btn big-control-btn" type="button">
+                    <i class="material-icons">play_arrow</i>
+                </a>
+
+                {% else %}
+                <a id="pause_btn" href="{% url 'pause' %}" class="btn btn-primary control-btn big-control-btn" type="button">
                     <i class="material-icons">pause</i>
                 </a>
+                {% endif %}
                 <a href="{% url 'skip_next' %}" class="btn btn-primary control-btn small-control-btn" type="button">
                     <i class="material-icons">skip_next</i>
                 </a>

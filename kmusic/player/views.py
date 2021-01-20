@@ -27,8 +27,6 @@ def index(request):
         artist_id = response["item"]["artists"][0]["id"]
         res2 = requests.get("https://api.spotify.com/v1/artists/"+artist_id, headers={"Authorization":  auth})
         response2 = json.loads(res2.text)
-        res_recents = requests.get("https://api.spotify.com/v1/me/player/recently-played?limit=9", headers={"Authorization":  auth})
-        response_recents = json.loads(res_recents.text)
         context = {
             "song_title" : response["item"]["name"],
             "song_artist" : response["item"]["artists"][0]["name"],
@@ -36,8 +34,10 @@ def index(request):
             "artist_image" : response2["images"][0]["url"],
             "song_progress" : response["progress_ms"],
             "song_duration" : response["item"]["duration_ms"],
-            "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"],
+            "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"] + 500,
             "recents" : sq.getQueue(),
+            "isPaused": request.session.get("isPaused", False),
+
         }
         return render(request, "player/index.html", context)
     else:
@@ -76,13 +76,14 @@ def skip_previous(request):
     time.sleep(0.5)
     return HttpResponseRedirect(reverse("index"))
 
-def play_pause(request):
-    res = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
-    if res.status_code==204:
-        requests.put("https://api.spotify.com/v1/me/player/play", headers={"Authorization": getAuth(request)})
-    elif res.status_code==200:
-        #TODO change because spotify does not update immdeiately when song paused
-        requests.put("https://api.spotify.com/v1/me/player/pause", headers={"Authorization": getAuth(request)})
+def play(request):
+    requests.put("https://api.spotify.com/v1/me/player/play", headers={"Authorization": getAuth(request)})
+    request.session["isPaused"] = False
+    return HttpResponseRedirect(reverse("index"))
+
+def pause(request):
+    requests.put("https://api.spotify.com/v1/me/player/pause", headers={"Authorization": getAuth(request)})
+    request.session["isPaused"] = True
     return HttpResponseRedirect(reverse("index"))
 
 def getAlbumCoverLink(request, song_id):
