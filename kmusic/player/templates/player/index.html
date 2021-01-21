@@ -50,7 +50,8 @@
         </div>
     </div>
     <div data-timeleft="{{song_time_left}}" id="controls-section">
-        <div class="container text-center">
+        <div id="song-progress" data-songprogress="{{song_progress}}" data-songduration="{{song_duration}}"></div>
+        <div class="container text-center controls-container">
             <div id="controls">
                 <a href="{% url 'skip_previous' %}" class="btn btn-primary control-btn small-control-btn" type="button">
                     <i class="material-icons">skip_previous</i>
