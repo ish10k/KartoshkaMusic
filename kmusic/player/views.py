@@ -34,7 +34,7 @@ def index(request):
             "artist_image" : response2["images"][0]["url"],
             "song_progress" : response["progress_ms"],
             "song_duration" : response["item"]["duration_ms"],
-            "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"] + 500,
+            "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"] + 1000,
             "recents" : sq.getQueue(),
             "isPaused": request.session.get("isPaused", False),
 

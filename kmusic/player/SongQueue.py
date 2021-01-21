@@ -17,13 +17,16 @@ class SongQueue():
         return (''.join(self.queue) + "\nhead: " + str(self.head))
 
     def addItem(self, link):
-        if len(self.queue) < self.length:
-            self.queue.append(link)
+        if self.peak()!=link:
+            if len(self.queue) < self.length:
+                self.queue.append(link)
+            else:
+                self.queue[self.head] = link
+            self.head+=1
+            if self.head==self.length:
+                self.head=0
         else:
-            self.queue[self.head] = link
-        self.head+=1
-        if self.head==self.length:
-            self.head=0
+            print(link, " is the most recent element")
     
     def getQueue(self):
         h = self.head-1
@@ -36,7 +39,10 @@ class SongQueue():
         return q
 
     def peak(self):
-        return self.getQueue()[0]
+        if len(self.queue)>0:
+            return self.getQueue()[0]
+        else:
+            return None
 
     def toJSON(self):
         d = {
