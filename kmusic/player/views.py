@@ -92,9 +92,10 @@ def getAlbumCoverLink(request, song_id):
     return response["album"]["images"][0]["url"]
 
 def getSongQueue(request):
-    sq_json = json.loads(request.session.get("songqueue", None))
-    if sq_json==None:
-        sq = SongQueue(length=10)
+    sq_cookie = request.session.get("songqueue", None)
+    if sq_cookie==None:
+        sq = SongQueue(length=19)
     else:
+        sq_json = json.loads(sq_cookie)
         sq = SongQueue(length=sq_json["length"],head=sq_json["head"],queue=sq_json["queue"])
     return sq

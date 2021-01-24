@@ -174,11 +174,3 @@ body {
   margin-left: calc(-100%/6/4);
 }
 
-#song-progress{
-  height: 100%;
-  background: rgba(0,0,0,0.15);
-  position: absolute;
-  top: 0;
-  left: 0;
-  max-width: 100%;
-}
