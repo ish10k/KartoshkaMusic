@@ -139,6 +139,7 @@ body {
 
 .controls-div {
   border-radius: 50%;
+  position: relative;
   background: rgb(52,58,64);
   display: flex;
   justify-content: center;
