@@ -36,7 +36,7 @@ def index(request):
             "song_duration" : response["item"]["duration_ms"],
             "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"] + 1000,
             "recents" : sq.getQueue(),
-            "isPaused": request.session.get("isPaused", False),
+            "isPaused": isSongPaused(request),
 
         }
         return render(request, "player/index.html", context)
@@ -78,12 +78,10 @@ def skip_previous(request):
 
 def play(request):
     requests.put("https://api.spotify.com/v1/me/player/play", headers={"Authorization": getAuth(request)})
-    request.session["isPaused"] = False
     return HttpResponseRedirect(reverse("index"))
 
 def pause(request):
     requests.put("https://api.spotify.com/v1/me/player/pause", headers={"Authorization": getAuth(request)})
-    request.session["isPaused"] = True
     return HttpResponseRedirect(reverse("index"))
 
 def getAlbumCoverLink(request, song_id):
@@ -99,3 +97,19 @@ def getSongQueue(request):
         sq_json = json.loads(sq_cookie)
         sq = SongQueue(length=sq_json["length"],head=sq_json["head"],queue=sq_json["queue"])
     return sq
+
+def isSongPaused(request):
+    res1 = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
+    response = json.loads(res1.text)
+    before = response["progress_ms"]
+    #wait so song can progress and spotify update
+    time.sleep(0.01)
+    res2 = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
+    response2 = json.loads(res2.text)
+    after = response2["progress_ms"]
+    if after-before > 0:
+        return False
+    else:
+        return True
+
+
