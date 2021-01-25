@@ -26,7 +26,9 @@ class SongQueue():
             if self.head==self.length:
                 self.head=0
         else:
-            print(link, " is the most recent element")
+            #print(link, " is the most recent element")
+            #does nothing
+            x=1
     
     def getQueue(self):
         h = self.head-1
