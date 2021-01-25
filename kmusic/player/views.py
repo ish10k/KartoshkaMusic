@@ -14,7 +14,10 @@ from .SongQueue import SongQueue
 def index(request):
     auth = getAuth(request)
     if auth==None:
-        return render(request, "player/index.html")
+        context={
+            "loggedOut" : True,
+        }
+        return render(request, "player/index.html", context)
     
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": auth})
     if res_current.status_code==204:
@@ -30,7 +33,6 @@ def index(request):
         context = {
             "song_title" : response["item"]["name"],
             "song_artist" : response["item"]["artists"][0]["name"],
-            "song_art" : sq.peak(),
             "artist_image" : response2["images"][0]["url"],
             "song_progress" : response["progress_ms"],
             "song_duration" : response["item"]["duration_ms"],
@@ -100,6 +102,9 @@ def getSongQueue(request):
 
 def isSongPaused(request):
     res1 = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
+    if res1.status_code==204:
+        #no song playing / spotify closed
+        return True
     response = json.loads(res1.text)
     before = response["progress_ms"]
     #wait so song can progress and spotify update

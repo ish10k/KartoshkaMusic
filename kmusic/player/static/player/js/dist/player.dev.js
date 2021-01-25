@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
     progress_interval = setInterval(updateProgressBar, 100);
   }
 
-  refresh_timeout = setTimeout(refresh, time_left);
+  if (time_left > 0) {
+    refresh_timeout = setTimeout(refresh, time_left);
+  }
 
   pause_btn.onclick = function () {
     clearTimeout(refresh_timeout);
@@ -22,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log(time_left); //play button
 
   play_btn = document.querySelector('#play_btn');
-  refresh_timeout = setTimeout(refresh, time_left);
 
   play_btn.onclick = function () {
     refresh_timeout = setTimeout(refresh, time_left);
