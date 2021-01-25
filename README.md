@@ -17,9 +17,3 @@ When playing multiple songs from one album consecutively, add number to mini alb
 
 # Known Problems
 
-album art too big for small screen
-
-pause icon not central
-
-background band photo needs height to be increased to 100% of main section
-

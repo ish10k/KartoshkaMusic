@@ -1,2 +1,6 @@
 *.jpg
 kmusic/db.sqlite3
+kmusic/player/migrations
+kmusic/player/__pycache__
+kmusic/__pycache__
+.DS_Store
