@@ -79,11 +79,11 @@ def skip_previous(request):
     return HttpResponseRedirect(reverse("index"))
 
 def play(request):
-    requests.put("https://api.spotify.com/v1/me/player/play", headers={"Authorization": getAuth(request)})
+    res = requests.put("https://api.spotify.com/v1/me/player/play", headers={"Authorization": getAuth(request)})
     return HttpResponseRedirect(reverse("index"))
 
 def pause(request):
-    requests.put("https://api.spotify.com/v1/me/player/pause", headers={"Authorization": getAuth(request)})
+    res = requests.put("https://api.spotify.com/v1/me/player/pause", headers={"Authorization": getAuth(request)})
     return HttpResponseRedirect(reverse("index"))
 
 def getAlbumCoverLink(request, song_id):
