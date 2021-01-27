@@ -6,6 +6,7 @@ from django.core import serializers
 import requests
 import json
 import time
+from decouple import config
 
 from .SpotifyAuth import SpotifyAuth
 from .SongQueue import SongQueue
@@ -15,6 +16,7 @@ def index(request):
     if getAuth(request)==None:
         context={
             "loggedOut" : True,
+            "login_link":"https://accounts.spotify.com/en/authorize?client_id=325f8457b0444db0919e8bc14e63ed9f&response_type=code&redirect_uri="+config('REDIRECT_URI')+"&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing&show_dialog=true"
         }
         return render(request, "player/index.html", context)
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})

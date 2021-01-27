@@ -1,6 +1,5 @@
 *.jpg
-kmusic/db.sqlite3
+__pycache__
 kmusic/__pycache__
-kmusic/kmusic/__pycache__
-kmusic/player/__pycache__
-kmusic/.env
+player/__pycache__
+.env
