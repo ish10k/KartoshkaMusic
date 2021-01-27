@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (pause_btn!=null){
         pause_btn.onclick = pausePlayback;
         //progress bar interval
+        clearInterval(progress_interval);
         progress_interval = setInterval(increaseProgressBar, 100, 100);
     }
 
@@ -100,16 +101,6 @@ function increaseProgressBar(increase){
     progress_div.setAttribute("data-songprogress", progress);
 }
 
-function refresh(){
-    pause_btn = document.querySelector('#pause_btn');
-    if(pause_btn!=null){
-        console.log("song end");
-        //location.reload();
-        getCurrentSongInfo();
-    }
-
-}
-
 function getCurrentSongInfo(){
     const request = new XMLHttpRequest();
     request.open('GET', "getCurrentSongInfo_HTTP_RES");
@@ -129,6 +120,7 @@ function getCurrentSongInfo(){
             document.querySelector('#song-progress').setAttribute("data-songprogress", data.song_progress)
             document.querySelector('#song-progress').setAttribute("data-songduration", data.song_duration)
             setProgressBar(parseFloat(data.song_progress));
+            clearInterval(progress_interval);
             progress_interval = setInterval(increaseProgressBar, 100, 100);
     
             //mini albums
@@ -170,6 +162,7 @@ function resumePlayback(){
         const data = JSON.parse(request.responseText);
         console.log(data);
         if (data==204){
+            clearInterval(progress_interval);
             progress_interval = setInterval(increaseProgressBar, 100, 100);
             pause_btn = document.querySelector('#pause_btn');
             pause_btn.onclick= pausePlayback;
