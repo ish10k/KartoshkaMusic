@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function(){
     //pause button
     time_left = parseFloat(controls_section.dataset.timeleft);
     pause_btn = document.querySelector('#pause_btn');
+    pause_btn.onclick = pausePlayback;
+    /*
     if (pause_btn!=null){
         //progress bar
         progress_interval = setInterval(updateProgressBar, 100);
@@ -27,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
         progress_interval = setInterval(updateProgressBar, 100);
     }
 
+    */
 });
 
 function updateProgressBar(){
@@ -70,4 +73,40 @@ function getCurrentSongInfo(){
     
     };
     request.send();
+}
+
+function pausePlayback(){
+    const request = new XMLHttpRequest();
+    request.open('GET', "pause");
+    request.onload = () => {
+        const response = request.responseText;
+        const data = JSON.parse(request.responseText);
+        console.log(data);
+        
+        if (data==204){
+            pause_btn = document.querySelector('#pause_btn');
+            pause_btn.onclick= resumePlayback;
+            pause_btn.innerHTML='<i class="material-icons">play_arrow</i>';
+        }
+    };
+    request.send();
+    return false;
+}
+
+function resumePlayback(){
+    const request = new XMLHttpRequest();
+    request.open('GET', "play");
+    request.onload = () => {
+        const response = request.responseText;
+        const data = JSON.parse(request.responseText);
+        console.log(data);
+        if (data==204){
+            pause_btn = document.querySelector('#pause_btn');
+            pause_btn.onclick= pausePlayback;
+            pause_btn.innerHTML='<i class="material-icons">pause</i>';
+        }
+    
+    };
+    request.send();
+    return false;
 }

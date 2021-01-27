@@ -6,29 +6,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
   time_left = parseFloat(controls_section.dataset.timeleft);
   pause_btn = document.querySelector('#pause_btn');
-
-  if (pause_btn != null) {
-    //progress bar
-    progress_interval = setInterval(updateProgressBar, 100);
+  pause_btn.onclick = pausePlayback;
+  /*
+  if (pause_btn!=null){
+      //progress bar
+      progress_interval = setInterval(updateProgressBar, 100);
   }
-
-  if (time_left > 0) {
-    refresh_timeout = setTimeout(refresh, time_left);
+    if (time_left>0){
+      refresh_timeout = setTimeout(refresh, time_left);
+   }
+  pause_btn.onclick = function(){
+      clearTimeout(refresh_timeout);
+      clearInterval(progress_interval);
   }
-
-  pause_btn.onclick = function () {
-    clearTimeout(refresh_timeout);
-    clearInterval(progress_interval);
-  };
-
-  console.log(time_left); //play button
-
+  console.log(time_left);
+    //play button
   play_btn = document.querySelector('#play_btn');
-
-  play_btn.onclick = function () {
-    refresh_timeout = setTimeout(refresh, time_left);
-    progress_interval = setInterval(updateProgressBar, 100);
-  };
+  play_btn.onclick = function(){
+      refresh_timeout = setTimeout(refresh, time_left);
+      progress_interval = setInterval(updateProgressBar, 100);
+  }
+    */
 });
 
 function updateProgressBar() {
@@ -71,4 +69,44 @@ function getCurrentSongInfo() {
   };
 
   request.send();
+}
+
+function pausePlayback() {
+  var request = new XMLHttpRequest();
+  request.open('GET', "pause");
+
+  request.onload = function () {
+    var response = request.responseText;
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+
+    if (data == 204) {
+      pause_btn = document.querySelector('#pause_btn');
+      pause_btn.onclick = resumePlayback;
+      pause_btn.innerHTML = '<i class="material-icons">play_arrow</i>';
+    }
+  };
+
+  request.send();
+  return false;
+}
+
+function resumePlayback() {
+  var request = new XMLHttpRequest();
+  request.open('GET', "play");
+
+  request.onload = function () {
+    var response = request.responseText;
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+
+    if (data == 204) {
+      pause_btn = document.querySelector('#pause_btn');
+      pause_btn.onclick = pausePlayback;
+      pause_btn.innerHTML = '<i class="material-icons">pause</i>';
+    }
+  };
+
+  request.send();
+  return false;
 }
