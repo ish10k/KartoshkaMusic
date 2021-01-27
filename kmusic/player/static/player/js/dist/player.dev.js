@@ -10,13 +10,59 @@ document.addEventListener('DOMContentLoaded', function () {
   setInterval(checkChanges, 5000); //pause button
 
   pause_btn = document.querySelector('#pause_btn');
-  pause_btn.onclick = pausePlayback;
 
   if (pause_btn != null) {
-    //progress bar interval
+    pause_btn.onclick = pausePlayback; //progress bar interval
+
     progress_interval = setInterval(increaseProgressBar, 100, 100);
-  }
+  } //play button
+
+
+  play_btn = document.querySelector('#play_btn');
+
+  if (play_btn != null) {
+    play_btn.onclick = resumePlayback;
+  } //skip previous button
+
+
+  previous_btn = document.querySelector('#skip_previous');
+  previous_btn.onclick = skip_previous; //skip next button
+
+  next_btn = document.querySelector('#skip_next');
+  next_btn.onclick = skip_next;
 });
+
+function skip_previous() {
+  var request = new XMLHttpRequest();
+  request.open('GET', "skip_previous");
+
+  request.onload = function () {
+    var response = request.responseText;
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+    clearInterval(progress_interval);
+    getCurrentSongInfo();
+  };
+
+  request.send();
+  return false;
+}
+
+function skip_next() {
+  var request = new XMLHttpRequest();
+  request.open('GET', "skip_next");
+
+  request.onload = function () {
+    var response = request.responseText;
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+    clearInterval(progress_interval);
+    getCurrentSongInfo();
+  };
+
+  request.send();
+  return false;
+}
 
 function checkChanges() {
   var request = new XMLHttpRequest();
@@ -24,21 +70,20 @@ function checkChanges() {
 
   request.onload = function () {
     var response = request.responseText;
-    var data = JSON.parse(request.responseText);
-    console.log(data);
+    var data = JSON.parse(request.responseText); //console.log(data);
 
     if (currentSongID != data.song_id) {
       //song changed
       getCurrentSongInfo();
     } else {
-      updateProgressBar(parseFloat(data.song_progress));
+      setProgressBar(parseFloat(data.song_progress));
     }
   };
 
   request.send();
 }
 
-function updateProgressBar(progress) {
+function setProgressBar(progress) {
   progress_div = document.querySelector('#song-progress');
   percentage = 100 * (progress / parseFloat(progress_div.dataset.songduration));
   progress_div.style.width = percentage + "%";
@@ -79,7 +124,11 @@ function getCurrentSongInfo() {
       document.querySelector('#song-artist').innerHTML = data.song_artist;
       document.querySelector('#band-background').style.backgroundImage = "url('" + data.artist_image + "')";
       currentSongID = data.song_id;
-      document.querySelector('#song-info').setAttribute("data-songid", currentSongID); //mini albums
+      document.querySelector('#song-info').setAttribute("data-songid", currentSongID);
+      document.querySelector('#song-progress').setAttribute("data-songprogress", data.song_progress);
+      document.querySelector('#song-progress').setAttribute("data-songduration", data.song_duration);
+      setProgressBar(parseFloat(data.song_progress));
+      progress_interval = setInterval(increaseProgressBar, 100, 100); //mini albums
 
       var album_counter = 0;
       document.querySelectorAll('.mini-album').forEach(function (element) {

@@ -49,15 +49,11 @@ def getAuth(request):
 
 def skip_next(request):
     res = requests.post("https://api.spotify.com/v1/me/player/next", headers={"Authorization": getAuth(request)})
-    #wait so spotify can change song
-    time.sleep(0.5)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponse(json.dumps(res.status_code))
 
 def skip_previous(request):
     res = requests.post("https://api.spotify.com/v1/me/player/previous", headers={"Authorization": getAuth(request)})
-    #wait so spotify can change song
-    time.sleep(0.5)
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponse(json.dumps(res.status_code))
 
 def play(request):
     res = requests.put("https://api.spotify.com/v1/me/player/play", headers={"Authorization": getAuth(request)})

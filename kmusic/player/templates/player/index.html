@@ -81,7 +81,7 @@
 		<div id="song-progress" data-songprogress="{{song_progress}}" data-songduration="{{song_duration}}"></div>
         <div id="controls">
             <div class="controls-div small-control">
-				<a class="control-btn" href="{% url 'skip_previous' %}">
+				<a id="skip_previous" class="control-btn" href="#">
 					<i class="material-icons">skip_previous</i>
 				</a>
 			</div>
@@ -99,7 +99,7 @@
 			</div>
 			{% endif %}
             <div class="controls-div small-control">
-				<a class="control-btn" href="{% url 'skip_next' %}">
+				<a id="skip_next" class="control-btn" href="#">
 					<i class="material-icons">skip_next</i>
 				</a>
 			</div>
