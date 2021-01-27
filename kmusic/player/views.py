@@ -12,14 +12,13 @@ from .SongQueue import SongQueue
 # Create your views here.
 
 def index(request):
-    auth = getAuth(request)
-    if auth==None:
+    if getAuth(request)==None:
         context={
             "loggedOut" : True,
         }
         return render(request, "player/index.html", context)
-    
-    res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": auth})
+    isPaused = isSongPaused(request)
+    res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
     if res_current.status_code==204:
         return render(request, "player/index.html", context={"song_title": "No song playing"})
     elif res_current.status_code==200:
@@ -28,17 +27,18 @@ def index(request):
         sq.addItem(response["item"]["album"]["images"][0]["url"])
         request.session["songqueue"] = sq.toJSON()
         artist_id = response["item"]["artists"][0]["id"]
-        res2 = requests.get("https://api.spotify.com/v1/artists/"+artist_id, headers={"Authorization":  auth})
+        res2 = requests.get("https://api.spotify.com/v1/artists/"+artist_id, headers={"Authorization":  getAuth(request)})
         response2 = json.loads(res2.text)
         context = {
             "song_title" : response["item"]["name"],
             "song_artist" : response["item"]["artists"][0]["name"],
+            "song_art" : sq.peak(),
             "artist_image" : response2["images"][0]["url"],
             "song_progress" : response["progress_ms"],
             "song_duration" : response["item"]["duration_ms"],
             "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"] + 1000,
-            "recents" : sq.getQueue(),
-            "isPaused": isSongPaused(request),
+            "recents" : sq.getTail(),
+            "isPaused": isPaused,
 
         }
         return render(request, "player/index.html", context)
@@ -53,7 +53,7 @@ def callback(request):
         #cookie
         request.session["token"] = spotify_auth.toJSON()
         #auth = spotify_auth.getAuth()
-    
+
     return HttpResponseRedirect(reverse("index"))
 
 def getAuth(request):
@@ -101,6 +101,7 @@ def getSongQueue(request):
     return sq
 
 def isSongPaused(request):
+    time.sleep(0.5)
     res1 = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
     if res1.status_code==204:
         #no song playing / spotify closed
@@ -108,7 +109,7 @@ def isSongPaused(request):
     response = json.loads(res1.text)
     before = response["progress_ms"]
     #wait so song can progress and spotify update
-    time.sleep(0.01)
+    time.sleep(0.5)
     res2 = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
     response2 = json.loads(res2.text)
     after = response2["progress_ms"]

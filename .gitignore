@@ -1,2 +1,6 @@
 *.jpg
 kmusic/db.sqlite3
+kmusic/__pycache__
+kmusic/kmusic/__pycache__
+kmusic/player/__pycache__
+kmusic/.env

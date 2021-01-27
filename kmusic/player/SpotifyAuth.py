@@ -2,6 +2,7 @@ import datetime
 import json
 
 import requests
+from decouple import config
 
 
 class SpotifyAuth():
@@ -17,6 +18,10 @@ class SpotifyAuth():
         if code!=None:
             #print("code constructor")
             self.code = code
+            self.access_token=None
+            self.refresh_token=None
+            self.expirey_time=None
+            self.auth=None
             self.getAccessToken()
         elif access_token!=None and refresh_token!=None and expirey_time!=None:
             #print("token constructor")
@@ -39,12 +44,12 @@ class SpotifyAuth():
         if self.expirey_time==None:
             #print("token not yet set")
             data = {
-                "client_id": "325f8457b0444db0919e8bc14e63ed9f",
+                "client_id": config('SPOTIFY_CID'),
                 #should be hidden
-                "client_secret": "8f27ca0365d04e3dac15f6771f362762",
+                "client_secret": config('SPOTIFY_CS'),
                 "grant_type":"authorization_code",
                 "code":self.code,
-                "redirect_uri":"http://127.0.0.1:8000/callback",
+                "redirect_uri":config('REDIRECT_URI'),
             }
             tokenRes = requests.post("https://accounts.spotify.com/api/token", data = data)
             response = json.loads(tokenRes.text)
@@ -59,10 +64,10 @@ class SpotifyAuth():
             data = {
                 "grant_type":"refresh_token",
                 "refresh_token":self.refresh_token,
-                "client_id": "325f8457b0444db0919e8bc14e63ed9f",
+                "client_id": config('SPOTIFY_CID'),
                 #should be hidden
-                "client_secret": "8f27ca0365d04e3dac15f6771f362762",
-                "redirect_uri":"http://127.0.0.1:8000/callback",
+                "client_secret": config('SPOTIFY_CS'),
+                "redirect_uri": config('REDIRECT_URI'),
             }
             tokenRes = requests.post("https://accounts.spotify.com/api/token", data = data)
             response = json.loads(tokenRes.text)
