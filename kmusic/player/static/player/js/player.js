@@ -42,8 +42,32 @@ function refresh(){
     pause_btn = document.querySelector('#pause_btn');
     if(pause_btn!=null){
         console.log("song end");
-        location.reload();
+        //location.reload();
+        getCurrentSongInfo();
     }
 
 }
 
+function getCurrentSongInfo(){
+    const request = new XMLHttpRequest();
+    request.open('GET', "getCurrentSongInfo_HTTP_RES");
+    request.onload = () => {
+        const response = request.responseText;
+        const data = JSON.parse(request.responseText);
+        console.log(data);
+
+        document.querySelector('#current-album').src = data.song_art;
+        document.querySelector('#song-title').innerHTML = data.song_title;
+        document.querySelector('#song-artist').innerHTML = data.song_artist;
+        document.querySelector('#band-background').style.backgroundImage = "url('"+data.artist_image+"')";
+
+        //mini albums
+        let album_counter = 0;
+        document.querySelectorAll('.mini-album').forEach(function (element) {
+            element.src = data.recents[album_counter];
+            album_counter++;
+        });
+    
+    };
+    request.send();
+}

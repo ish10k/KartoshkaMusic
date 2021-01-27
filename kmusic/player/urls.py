@@ -9,5 +9,6 @@ urlpatterns = [
     path('skip_previous', views.skip_previous, name="skip_previous"),
     path('play', views.play, name="play"),
     path('pause', views.pause, name="pause"),
+    path('getCurrentSongInfo_HTTP_RES', views.getCurrentSongInfo_HTTP_RES, name="getCurrentSongInfo_HTTP_RES"),
 
 ]
