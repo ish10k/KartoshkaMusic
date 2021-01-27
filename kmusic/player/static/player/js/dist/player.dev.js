@@ -1,41 +1,56 @@
 "use strict";
 
+var currentSongID = null;
+var progress_interval = null;
 document.addEventListener('DOMContentLoaded', function () {
-  controls_section = document.querySelector('#controls-section');
-  updateProgressBar(); //pause button
+  song_info = document.querySelector('#song-info');
+  currentSongID = song_info.dataset.songid;
+  controls_section = document.querySelector('#controls-section'); //all changes interval
 
-  time_left = parseFloat(controls_section.dataset.timeleft);
+  setInterval(checkChanges, 5000); //pause button
+
   pause_btn = document.querySelector('#pause_btn');
   pause_btn.onclick = pausePlayback;
-  /*
-  if (pause_btn!=null){
-      //progress bar
-      progress_interval = setInterval(updateProgressBar, 100);
+
+  if (pause_btn != null) {
+    //progress bar interval
+    progress_interval = setInterval(increaseProgressBar, 100, 100);
   }
-    if (time_left>0){
-      refresh_timeout = setTimeout(refresh, time_left);
-   }
-  pause_btn.onclick = function(){
-      clearTimeout(refresh_timeout);
-      clearInterval(progress_interval);
-  }
-  console.log(time_left);
-    //play button
-  play_btn = document.querySelector('#play_btn');
-  play_btn.onclick = function(){
-      refresh_timeout = setTimeout(refresh, time_left);
-      progress_interval = setInterval(updateProgressBar, 100);
-  }
-    */
 });
 
-function updateProgressBar() {
-  progress_div = document.querySelector('#song-progress');
-  progress = parseFloat(progress_div.dataset.songprogress);
-  percentage = 100 * (progress / parseFloat(progress_div.dataset.songduration)); //console.log(percentage+"%");
+function checkChanges() {
+  var request = new XMLHttpRequest();
+  request.open('GET', "getCurrentSongID");
 
+  request.onload = function () {
+    var response = request.responseText;
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+
+    if (currentSongID != data.song_id) {
+      //song changed
+      getCurrentSongInfo();
+    } else {
+      updateProgressBar(parseFloat(data.song_progress));
+    }
+  };
+
+  request.send();
+}
+
+function updateProgressBar(progress) {
+  progress_div = document.querySelector('#song-progress');
+  percentage = 100 * (progress / parseFloat(progress_div.dataset.songduration));
   progress_div.style.width = percentage + "%";
-  progress_div.setAttribute("data-songprogress", progress + 100);
+  progress_div.setAttribute("data-songprogress", progress);
+}
+
+function increaseProgressBar(increase) {
+  progress_div = document.querySelector('#song-progress');
+  progress = parseFloat(progress_div.dataset.songprogress) + increase;
+  percentage = 100 * (progress / parseFloat(progress_div.dataset.songduration));
+  progress_div.style.width = percentage + "%";
+  progress_div.setAttribute("data-songprogress", progress);
 }
 
 function refresh() {
@@ -56,16 +71,22 @@ function getCurrentSongInfo() {
     var response = request.responseText;
     var data = JSON.parse(request.responseText);
     console.log(data);
-    document.querySelector('#current-album').src = data.song_art;
-    document.querySelector('#song-title').innerHTML = data.song_title;
-    document.querySelector('#song-artist').innerHTML = data.song_artist;
-    document.querySelector('#band-background').style.backgroundImage = "url('" + data.artist_image + "')"; //mini albums
 
-    var album_counter = 0;
-    document.querySelectorAll('.mini-album').forEach(function (element) {
-      element.src = data.recents[album_counter];
-      album_counter++;
-    });
+    if (currentSongID != data.song_id) {
+      //song changed
+      document.querySelector('#current-album').src = data.song_art;
+      document.querySelector('#song-title').innerHTML = data.song_title;
+      document.querySelector('#song-artist').innerHTML = data.song_artist;
+      document.querySelector('#band-background').style.backgroundImage = "url('" + data.artist_image + "')";
+      currentSongID = data.song_id;
+      document.querySelector('#song-info').setAttribute("data-songid", currentSongID); //mini albums
+
+      var album_counter = 0;
+      document.querySelectorAll('.mini-album').forEach(function (element) {
+        element.src = data.recents[album_counter];
+        album_counter++;
+      });
+    }
   };
 
   request.send();
@@ -81,6 +102,7 @@ function pausePlayback() {
     console.log(data);
 
     if (data == 204) {
+      clearInterval(progress_interval);
       pause_btn = document.querySelector('#pause_btn');
       pause_btn.onclick = resumePlayback;
       pause_btn.innerHTML = '<i class="material-icons">play_arrow</i>';
@@ -101,6 +123,7 @@ function resumePlayback() {
     console.log(data);
 
     if (data == 204) {
+      progress_interval = setInterval(increaseProgressBar, 100, 100);
       pause_btn = document.querySelector('#pause_btn');
       pause_btn.onclick = pausePlayback;
       pause_btn.innerHTML = '<i class="material-icons">pause</i>';

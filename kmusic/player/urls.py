@@ -10,5 +10,6 @@ urlpatterns = [
     path('play', views.play, name="play"),
     path('pause', views.pause, name="pause"),
     path('getCurrentSongInfo_HTTP_RES', views.getCurrentSongInfo_HTTP_RES, name="getCurrentSongInfo_HTTP_RES"),
+    path('getCurrentSongID', views.getCurrentSongID, name="getCurrentSongID"),
 
 ]

@@ -102,6 +102,15 @@ def isSongPaused(request):
 def getCurrentSongInfo_HTTP_RES(request):
     return HttpResponse(json.dumps(getCurrentSongInfo(request)))
 
+def getCurrentSongID(request):
+    res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
+    response = json.loads(res_current.text)
+    data = {
+        "song_id" : response["item"]["id"],
+        "song_progress" : response["progress_ms"],
+    }
+    return HttpResponse(json.dumps(data))
+
 def getCurrentSongInfo(request):
     isPaused = isSongPaused(request)
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
