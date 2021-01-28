@@ -16,7 +16,7 @@ def index(request):
     if getAuth(request)==None:
         context={
             "loggedOut" : True,
-            "login_link":"https://accounts.spotify.com/en/authorize?client_id=325f8457b0444db0919e8bc14e63ed9f&response_type=code&redirect_uri="+config('REDIRECT_URI')+"&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing&show_dialog=true"
+            "login_link":"https://accounts.spotify.com/en/authorize?client_id=325f8457b0444db0919e8bc14e63ed9f&response_type=code&redirect_uri="+config('REDIRECT_URI')+"&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing user-library-read user-library-modify&show_dialog=true"
         }
         return render(request, "player/index.html", context)
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
@@ -113,6 +113,10 @@ def getCurrentSongInfo(request):
     isPaused = isSongPaused(request)
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
     response = json.loads(res_current.text)
+    isLiked = checkLiked(request, response["item"]["id"])
+    likeClass="not-liked"
+    if isLiked:
+        likedClass="liked"
 
     sq = getSongQueue(request)
     sq.addItem(response["item"]["album"]["images"][0]["url"])
@@ -131,5 +135,19 @@ def getCurrentSongInfo(request):
         "song_time_left" : response["item"]["duration_ms"] - response["progress_ms"] + 1000,
         "recents" : sq.getTail(),
         "isPaused": isPaused,
+        "likedClass" : likedClass,
     }
-    return data 
+    return data
+
+def checkLiked(request, song_id):
+    url = "https://api.spotify.com/v1/me/tracks/contains?ids="+song_id
+    res = requests.get(url, headers={"Authorization": getAuth(request)})
+    response = json.loads(res.text)
+    return response[0]
+
+
+
+def like_song(request, song_id):
+    url = "https://api.spotify.com/v1/me/tracks?ids="+song_id
+    res = requests.put(url, headers={"Authorization": getAuth(request)})
+    return HttpResponse(json.dumps(res.status_code))

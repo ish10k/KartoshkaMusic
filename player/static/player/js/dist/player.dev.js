@@ -30,8 +30,33 @@ document.addEventListener('DOMContentLoaded', function () {
   previous_btn.onclick = skip_previous; //skip next button
 
   next_btn = document.querySelector('#skip_next');
-  next_btn.onclick = skip_next;
+  next_btn.onclick = skip_next; //like song button
+
+  like_btn = document.querySelector('#like-btn');
+
+  if (like_btn.classList.contains("not-liked")) {
+    like_btn.onclick = like_song;
+  }
 });
+
+function like_song() {
+  var request = new XMLHttpRequest();
+  url = "like_song/" + currentSongID;
+  request.open('GET', url);
+
+  request.onload = function () {
+    var response = request.responseText;
+    var data = JSON.parse(request.responseText);
+    console.log(data);
+    like_btn = document.querySelector('#like-btn');
+    like_btn.classList.remove("not-liked");
+    like_btn.classList.add("liked");
+    like_btn.onclick = null;
+  };
+
+  request.send();
+  return false;
+}
 
 function skip_previous() {
   var request = new XMLHttpRequest();
@@ -114,6 +139,19 @@ function getCurrentSongInfo() {
       document.querySelector('#song-title').innerHTML = data.song_title;
       document.querySelector('#song-artist').innerHTML = data.song_artist;
       document.querySelector('#band-background').style.backgroundImage = "url('" + data.artist_image + "')";
+
+      if (data.likedClass == "not-liked") {
+        like_btn = document.querySelector('#like-btn');
+        like_btn.classList.remove("not-liked");
+        like_btn.classList.add("liked");
+        like_btn.onclick = null;
+      } else {
+        like_btn = document.querySelector('#like-btn');
+        like_btn.classList.remove("liked");
+        like_btn.classList.add("not-liked");
+        like_btn.onclick = like_song;
+      }
+
       currentSongID = data.song_id;
       document.querySelector('#song-info').setAttribute("data-songid", currentSongID);
       document.querySelector('#song-progress').setAttribute("data-songprogress", data.song_progress);

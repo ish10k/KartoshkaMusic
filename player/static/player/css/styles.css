@@ -118,12 +118,6 @@ body {
   margin-bottom: 1%;
 }
 
-.control-btn {
-}
-
-.control-col {
-}
-
 .small-control i {
   font-size: 50px;
 }
@@ -191,4 +185,23 @@ body {
   color: rgb(30,215,96);
   z-index: 5;
   position: relative;
+}
+
+#like-btn {
+  position: absolute;
+  top: 50%;
+  margin-top: -25px;
+  left: 5%;
+}
+
+#like-btn i {
+  font-size: 50px;
+}
+
+.liked {
+  color: rgb(46,214,105);
+}
+
+.not-liked {
+  color: rgb(52,58,64);
 }
