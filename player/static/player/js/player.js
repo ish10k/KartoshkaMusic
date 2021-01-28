@@ -141,15 +141,15 @@ function getCurrentSongInfo(){
 
             if (data.likedClass=="not-liked"){
                 like_btn = document.querySelector('#like-btn');
-                like_btn.classList.remove("not-liked");
-                like_btn.classList.add("liked");
-                like_btn.onclick = null;
-            }
-            else{
-                like_btn = document.querySelector('#like-btn');
                 like_btn.classList.remove("liked");
                 like_btn.classList.add("not-liked");
                 like_btn.onclick = like_song;
+            }
+            else{
+                like_btn = document.querySelector('#like-btn');
+                like_btn.classList.remove("not-liked");
+                like_btn.classList.add("liked");
+                like_btn.onclick = null;
             }
 
 
