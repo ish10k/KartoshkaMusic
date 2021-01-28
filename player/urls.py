@@ -11,5 +11,5 @@ urlpatterns = [
     path('pause', views.pause, name="pause"),
     path('getCurrentSongInfo_HTTP_RES', views.getCurrentSongInfo_HTTP_RES, name="getCurrentSongInfo_HTTP_RES"),
     path('getCurrentSongID', views.getCurrentSongID, name="getCurrentSongID"),
-    path('checkLiked', views.checkLiked, name="checkLiked"),
+    path('like_song/<str:song_id>', views.like_song, name="like_song"),
 ]

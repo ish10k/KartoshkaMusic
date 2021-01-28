@@ -164,8 +164,10 @@ function getCurrentSongInfo(){
             //mini albums
             let album_counter = 0;
             document.querySelectorAll('.mini-album').forEach(function (element) {
-                element.src = data.recents[album_counter];
-                album_counter++;
+                if (album_counter<data.recents.length){
+                    element.src = data.recents[album_counter];
+                    album_counter++;
+                }
             });
         }
     

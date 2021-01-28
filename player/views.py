@@ -114,7 +114,7 @@ def getCurrentSongInfo(request):
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
     response = json.loads(res_current.text)
     isLiked = checkLiked(request, response["item"]["id"])
-    likeClass="not-liked"
+    likedClass="not-liked"
     if isLiked:
         likedClass="liked"
 
