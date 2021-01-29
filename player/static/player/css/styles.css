@@ -105,7 +105,7 @@ body {
 }
 
 .control-btn i {
-  font-size: 66px;
+  font-size: 8vh;
   color: white;
 }
 
@@ -114,22 +114,24 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-top: 1%;
-  margin-bottom: 1%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
 
 .small-control i {
-  font-size: 50px;
+  font-size: 6vh;
 }
 
 .small-control {
-  width: 65px;
-  height: 65px;
+  width: 8vh;
+  height: 8vh;
 }
 
 .big-control {
-  width: 90px;
-  height: 90px;
+  width: 10vh;
+  height: 10vh;
 }
 
 .controls-div {
