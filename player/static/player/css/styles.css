@@ -205,3 +205,13 @@ body {
 .not-liked {
   color: rgb(52,58,64);
 }
+
+.player-btn{
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.player-btn:focus{
+  outline: none;
+}

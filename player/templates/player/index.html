@@ -79,32 +79,32 @@
     </div>
     <div data-timeleft="{{song_time_left}}" id="controls-section">
 		<div id="song-progress" data-songprogress="{{song_progress}}" data-songduration="{{song_duration}}"></div>
-		<a class="{{likedClass}}" id="like-btn" href="#">
+		<button class="{{likedClass}} player-btn" id="like-btn">
 			<i class="material-icons">favorite</i>
-		</a>
+		</button>
         <div id="controls">
             <div class="controls-div small-control">
-				<a id="skip_previous" class="control-btn" href="#">
+				<button id="skip_previous" class="control-btn player-btn">
 					<i class="material-icons">skip_previous</i>
-				</a>
+				</button>
 			</div>
 			{% if isPaused %}
 			<div class="controls-div big-control">
-				<a id="play_btn" class="control-btn" href="#">
+				<button id="play_btn" class="control-btn player-btn">
 					<i class="material-icons">play_arrow</i>
-				</a>
+				</button>
 			</div>
 			{% else %}
             <div class="controls-div big-control">
-				<a id="pause_btn" class="control-btn" href="#">
+				<button id="pause_btn" class="control-btn player-btn">
 					<i class="material-icons">pause</i>
-				</a>
+				</button>
 			</div>
 			{% endif %}
             <div class="controls-div small-control">
-				<a id="skip_next" class="control-btn" href="#">
+				<button id="skip_next" class="control-btn player-btn">
 					<i class="material-icons">skip_next</i>
-				</a>
+				</button>
 			</div>
         </div>
     </div>
