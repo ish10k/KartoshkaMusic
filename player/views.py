@@ -80,7 +80,6 @@ def getSongQueue(request):
     return sq
 
 def isSongPaused(request):
-    time.sleep(0.5)
     res1 = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
     if res1.status_code==204:
         #no song playing / spotify closed
@@ -106,6 +105,7 @@ def getCurrentSongID(request):
     data = {
         "song_id" : response["item"]["id"],
         "song_progress" : response["progress_ms"],
+        "isPaused": isSongPaused(request),
     }
     return HttpResponse(json.dumps(data))
 

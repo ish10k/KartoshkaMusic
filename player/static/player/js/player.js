@@ -103,6 +103,12 @@ function checkChanges(){
         }
         else{
             setProgressBar(parseFloat(data.song_progress))
+            if (data.isPaused){
+                pauseActions();
+            }
+            else{
+                playActions();
+            }
         }
     
     };
@@ -158,8 +164,12 @@ function getCurrentSongInfo(){
             document.querySelector('#song-progress').setAttribute("data-songprogress", data.song_progress)
             document.querySelector('#song-progress').setAttribute("data-songduration", data.song_duration)
             setProgressBar(parseFloat(data.song_progress));
-            clearInterval(progress_interval);
-            progress_interval = setInterval(increaseProgressBar, 100, 100);
+            if (data.isPaused){
+                pauseActions();
+            }
+            else{
+                playActions();
+            }
     
             //mini albums
             let album_counter = 0;
@@ -184,14 +194,26 @@ function pausePlayback(){
         console.log(data);
         
         if (data==204){
-            clearInterval(progress_interval);
-            pause_btn = document.querySelector('#pause_btn');
-            pause_btn.onclick= resumePlayback;
-            pause_btn.innerHTML='<i class="material-icons">play_arrow</i>';
+            pauseActions();
         }
     };
     request.send();
     return false;
+}
+
+function pauseActions(){
+    clearInterval(progress_interval);
+    pause_btn = document.querySelector('#pause_btn');
+    pause_btn.onclick= resumePlayback;
+    pause_btn.innerHTML='<i class="material-icons">play_arrow</i>';
+}
+
+function playActions(){
+    clearInterval(progress_interval);
+    progress_interval = setInterval(increaseProgressBar, 100, 100);
+    pause_btn = document.querySelector('#pause_btn');
+    pause_btn.onclick= pausePlayback;
+    pause_btn.innerHTML='<i class="material-icons">pause</i>';
 }
 
 function resumePlayback(){
@@ -202,11 +224,7 @@ function resumePlayback(){
         const data = JSON.parse(request.responseText);
         console.log(data);
         if (data==204){
-            clearInterval(progress_interval);
-            progress_interval = setInterval(increaseProgressBar, 100, 100);
-            pause_btn = document.querySelector('#pause_btn');
-            pause_btn.onclick= pausePlayback;
-            pause_btn.innerHTML='<i class="material-icons">pause</i>';
+            playActions();
         }
     
     };
