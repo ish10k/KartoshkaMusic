@@ -1,4 +1,4 @@
-# KartoshkaMusic
+![kartoshka_music](https://github.com/DanielJMWilliams/KartoshkaMusic/assets/63907783/b6dbf870-91ab-4ab6-9d24-5b1457016041)# KartoshkaMusic
 
 A better looking display interface for Spotify.
 
@@ -36,8 +36,7 @@ pip install -r requirements.txt
 
 ## Screenshots/Demos
 
-![KartoshkaMusic Screenshot](images\kartoshka_music.jpeg)
-![KartoshkaMusic Screenshot](/images/kartoshka_music.jepg)
+![Image](/images/kartoshka_music.jpeg)
 
 ## Updates and Version History
 
