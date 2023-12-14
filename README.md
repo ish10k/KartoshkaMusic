@@ -1,4 +1,4 @@
-![kartoshka_music](https://github.com/DanielJMWilliams/KartoshkaMusic/assets/63907783/b6dbf870-91ab-4ab6-9d24-5b1457016041)# KartoshkaMusic
+# KartoshkaMusic
 
 A better looking display interface for Spotify.
 
