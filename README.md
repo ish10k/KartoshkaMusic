@@ -36,6 +36,8 @@ pip install -r requirements.txt
 
 ## Screenshots/Demos
 
+![KartoshkaMusic Screenshot](images\kartoshka_music.jpeg)
+
 ## Updates and Version History
 
 ## Frequently Asked Questions
