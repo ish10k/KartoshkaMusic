@@ -21,26 +21,31 @@ I made this web-app because I did not like the Spotify UI displaying information
 ### First Time Set Up
 1. Create Virtual Environment
 2. Activate virtual environment
+
+`venv\Scripts\Activate.ps1` 
+
 3. Install dependencies
 
 ```bash
-# Example installation command
 pip install -r requirements.txt
 ```
+
+4. Set Environment Variables
+    - `$env:DJANGO_SETTINGS_MODULE="kmusic.settings"`
+    - `$env:SPOTIFY_CS=""`
+    - `$env:SPOTIFY_CID=""`
+    - `$env:REDIRECT_URI="http://127.0.0.1:8000/callback" `
+    - `$env:DEBUG="true"`
+
+Spotify Client ID and Client Secret can be obtained here: https://developer.spotify.com/dashboard/.
 
 ### Running app
 1. Activate Virtual Environment
 2. ```python manage.py runserver```
 
-## License
-
 ## Screenshots/Demos
 
 ![Image](/images/kartoshka_music.jpeg)
-
-## Updates and Version History
-
-## Frequently Asked Questions
 
 ## Feature Wishlist
 
