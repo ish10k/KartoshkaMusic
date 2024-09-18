@@ -5,4 +5,4 @@ player/__pycache__
 .env
 design/
 
-./venv
+venv/**
