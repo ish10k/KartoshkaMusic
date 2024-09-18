@@ -16,7 +16,7 @@ def index(request):
     if getAuth(request)==None:
         context={
             "loggedOut" : True,
-            "login_link":"https://accounts.spotify.com/en/authorize?client_id=325f8457b0444db0919e8bc14e63ed9f&response_type=code&redirect_uri="+config('REDIRECT_URI')+"&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing user-library-read user-library-modify&show_dialog=true"
+            "login_link":f"https://accounts.spotify.com/en/authorize?client_id={config("SPOTIFY_CID")}&response_type=code&redirect_uri={config('REDIRECT_URI')}&scope=user-modify-playback-state user-read-playback-state user-read-recently-played user-read-currently-playing user-library-read user-library-modify&show_dialog=true"
         }
         return render(request, "player/index.html", context)
     res_current = requests.get("https://api.spotify.com/v1/me/player", headers={"Authorization": getAuth(request)})
@@ -44,7 +44,7 @@ def getAuth(request):
     if token==None:
         return None
     t = json.loads(token)
-    spotify_auth = SpotifyAuth(access_token=t["access_token"], refresh_token=t["refresh_token"], expirey_time=t["expirey_time"])
+    spotify_auth = SpotifyAuth(access_token=t["access_token"], refresh_token=t["refresh_token"], expiry_time=t["expiry_time"])
     auth = spotify_auth.getAuth()
     request.session["token"] = spotify_auth.toJSON()
     return auth
