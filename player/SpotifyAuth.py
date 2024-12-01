@@ -47,12 +47,12 @@ class SpotifyAuth():
             return self.access_token
 
         headers = {
-            "Authorization": "Basic " + base64.b64encode(f"{config('SPOTIFY_CID')}:{config('SPOTIFY_CS')}".encode()).decode("utf-8"),
+            "Authorization": "Basic " + base64.b64encode(f"{config('SPOTIFY_CLIENT_ID')}:{config('SPOTIFY_CLIENT_SECRET')}".encode()).decode("utf-8"),
             "content-type": "application/x-www-form-urlencoded"
         }
         payload = {
             "code":self.code,
-            "redirect_uri":config('REDIRECT_URI'),
+            "redirect_uri":config('SPOTIFY_REDIRECT_URI'),
         }
 
         # No expiry time means no token, so we need to fetch a new one.
@@ -68,7 +68,7 @@ class SpotifyAuth():
         response = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
 
         if response.status_code >= 400:
-            raise Exception("Could not obtain new token, response", response.text()) 
+            raise Exception("Could not obtain new token, response", response.text) 
 
         resJson = response.json()
         print("obtained new token, response", resJson)

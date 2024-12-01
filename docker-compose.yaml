@@ -1,0 +1,12 @@
+services:
+  kmusic-app:
+    build:
+      context: .
+    container_name: kmusic-app
+    volumes:
+      - .:/app # map source code to allow for hot reload
+    ports:
+      - 8000:8000
+    env_file:
+      - defaults.env
+      - secrets.env

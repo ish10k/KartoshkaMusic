@@ -32,9 +32,9 @@ pip install -r requirements.txt
 
 4. Set Environment Variables
     - `$env:DJANGO_SETTINGS_MODULE="kmusic.settings"`
-    - `$env:SPOTIFY_CS=""`
-    - `$env:SPOTIFY_CID=""`
-    - `$env:REDIRECT_URI="http://127.0.0.1:8000/callback" `
+    - `$env:SPOTIFY_CLIENT_SECRET=""`
+    - `$env:SPOTIFY_CLIENT_ID=""`
+    - `$env:SPOTIFY_REDIRECT_URI="http://127.0.0.1:8000/callback" `
     - `$env:DEBUG="true"`
 
 Spotify Client ID and Client Secret can be obtained here: https://developer.spotify.com/dashboard/.
