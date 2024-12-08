@@ -41,7 +41,6 @@ class SpotifyAuth():
     def getAccessToken(self):
         now = datetime.datetime.now()
 
-        # early circuit breaker
         if self.expiry_time is not None and self.expiry_time > now:
             print("token still valid, expires", self.expiry_time)
             return self.access_token
@@ -50,20 +49,19 @@ class SpotifyAuth():
             "Authorization": "Basic " + base64.b64encode(f"{config('SPOTIFY_CLIENT_ID')}:{config('SPOTIFY_CLIENT_SECRET')}".encode()).decode("utf-8"),
             "content-type": "application/x-www-form-urlencoded"
         }
+
         payload = {
             "code":self.code,
             "redirect_uri":config('SPOTIFY_REDIRECT_URI'),
         }
 
-        # No expiry time means no token, so we need to fetch a new one.
-        # If we have an expiry time and reached this point, it means the token must be expired
-        # and we need to get a new one!
-        if self.expiry_time is None:
-            print("token not yet set")
+        if self.expiry_time is None or self.refresh_token is None:
             payload["grant_type"] = "authorization_code"
+            print(f"token not yet set, grant type {payload['grant_type']}")
         else:
-            print("token expired, time to get a new one")
             payload["grant_type"] = "refresh_token"
+            payload["refresh_token"] = self.refresh_token
+            print(f"token expired at {self.expiry_time}, grant type {payload['grant_type']}")
 
         response = requests.post("https://accounts.spotify.com/api/token", data=payload, headers=headers)
 
@@ -73,8 +71,9 @@ class SpotifyAuth():
         resJson = response.json()
         print("obtained new token, response", resJson)
         self.expiry_time=self.calculateExpiryTime(resJson["expires_in"])
-        self.refresh_token = resJson["refresh_token"]
+        self.refresh_token = resJson.get("refresh_token")
         self.access_token = resJson["access_token"]
+        self.code = resJson["access_token"]
             
         return self.access_token
 
